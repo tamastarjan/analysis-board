@@ -1,48 +1,67 @@
-import { useContext } from "react";
-import { BoardContext } from "../context/BoardsContext";
-import { Board } from "../context/BoardsContext";
+import { useContext, useEffect, useState } from "react";
+import {
+  BoardSelectionContext,
+  addBoard,
+  deleteBoard,
+  getBoard,
+  getBoards,
+  updateBoard,
+} from "../context/BoardsContext";
 
 export function LeftSideBar() {
-  const [context, setContext] = useContext(BoardContext);
+  const [boards, setBoards] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
+
+  useEffect(() => {
+    const boards = getBoards();
+    setBoards(boards);
+  }, []);
 
   const newBoardClicked = () => {
     const boardName = prompt("Enter a name for the new board");
     if (boardName) {
-      const newBoard = new Board(boardName);
-      setContext((prevContext) => {
-        return { ...prevContext, boards: [...prevContext.boards, newBoard] };
-      });
+      addBoard(boardName);
+      setBoards(getBoards());
     }
   };
 
-  const deleteBoard = (boardIndex) => {
+  const deleteBoardClicked = (boardIndex) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this board?"
     );
     if (!confirmDelete) {
       return;
     }
+    if (boardIndex >= boards.length) {
+      return alert("Board not found");
+    }
 
-    setContext((prevContext) => {
-      const newBoards = [...prevContext.boards];
+    const boardId = boards[boardIndex].id;
+    deleteBoard(boardId);
+
+    if (selectedBoard && boardId === selectedBoard.id) {
+      setSelectedBoard(null);
+    }
+    setBoards((prevBoards) => {
+      const newBoards = [...prevBoards];
       newBoards.splice(boardIndex, 1);
-      return { ...prevContext, boards: newBoards };
+      return newBoards;
     });
   };
 
   const boardClicked = (board) => {
-    setContext((prevContext) => {
-      return { ...prevContext, selectedBoard: board };
-    });
+    setSelectedBoard(getBoard(board.id));
   };
 
   const boardDoubleClicked = (boardIndex, board) => {
     const boardName = prompt("Enter a new name for the board", board.name);
     if (boardName) {
-      setContext((prevContext) => {
-        const newBoards = [...prevContext.boards];
-        newBoards[boardIndex].name = boardName;
-        return { ...prevContext, boards: newBoards };
+      board.name = boardName;
+      updateBoard(boards);
+      setBoards((prevBoards) => {
+        const newBoards = [...prevBoards];
+        newBoards[boardIndex] = board;
+        return newBoards;
       });
     }
   };
@@ -51,7 +70,7 @@ export function LeftSideBar() {
     <div className="left-side-bar">
       <h1>Boards</h1>
       <button onClick={newBoardClicked}>New board</button>
-      {context.boards.map((board, boardIndex) => (
+      {boards.map((board, boardIndex) => (
         <div key={board.id} className="board">
           <div
             className="board-name"
@@ -61,7 +80,7 @@ export function LeftSideBar() {
             {board.name}
           </div>
           <div className="board-delete">
-            <button onClick={() => deleteBoard(boardIndex)}>X</button>
+            <button onClick={() => deleteBoardClicked(boardIndex)}>X</button>
           </div>
         </div>
       ))}

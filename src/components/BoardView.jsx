@@ -1,15 +1,18 @@
 import { useContext } from "react";
-import { BoardContext } from "../context/BoardsContext";
+import { BoardSelectionContext } from "../context/BoardsContext";
 import { GraphNodeView } from "./GraphNodeView";
 
 export function BoardView() {
-  const [context, setContext] = useContext(BoardContext);
+  const [selectedBoard] = useContext(BoardSelectionContext);
 
   return (
     <>
-      {context.selectedBoard ? (
+      {selectedBoard ? (
         <div className="board-view">
-          <GraphNodeView node={context.selectedBoard} />
+          {selectedBoard.name}
+          {selectedBoard.children.map((child) => {
+            return <GraphNodeView key={child.id} node={child} />;
+          })}
         </div>
       ) : (
         <div>No board selected</div>
