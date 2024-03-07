@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -49,6 +53,7 @@ code {
   height: 100vh;
   width: 100%;
   overflow: auto;
+  padding: 10px;
 }
 
 .graph-container {
@@ -88,4 +93,29 @@ button {
 
 button:hover {
   background-color: rgb(231, 231, 231);
+}
+
+.left-side-bar {
+  width: 300px;
+  height: 100vh;
+  overflow: auto;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.right-side-bar {
+  width: 400px;
+  height: 100vh;
+  overflow: auto;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.question {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.question:hover {
+  background-color: #f0f0f0;
 }

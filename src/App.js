@@ -3,6 +3,7 @@ import { LeftSideBar } from "./components/LeftSideBar";
 import { BoardView } from "./components/BoardView";
 import { BoardSelectionContext } from "./context/BoardsContext";
 import { useState } from "react";
+import { RightSideBar } from "./components/RightSideBar";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <div className="horizontal-container">
         <LeftSideBar />
         <BoardView />
+        <RightSideBar />
       </div>
     </BoardSelectionContext.Provider>
   );

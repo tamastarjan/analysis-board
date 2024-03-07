@@ -25,12 +25,14 @@ export function BoardView() {
       {selectedBoard ? (
         <div className="board-view">
           <button onClick={boardClicked}>{selectedBoard.name}</button>
+          <br />
+          <br />
           {selectedBoard.children.map((child) => {
             return <GraphNodeView key={child.id} node={child} />;
           })}
         </div>
       ) : (
-        <div>No board selected</div>
+        <div className="board-view">No board selected</div>
       )}
     </>
   );
