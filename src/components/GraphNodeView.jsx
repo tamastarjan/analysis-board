@@ -3,6 +3,7 @@ import {
   BoardSelectionContext,
   ItemNode,
   findNode,
+  findParent,
   updateBoard,
 } from "../context/BoardsContext";
 
@@ -26,7 +27,10 @@ export function GraphNodeView({ node }) {
     setSelectedBoard(boardClone);
   };
 
-  const editNodeClicked = () => {
+  const editNodeClicked = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     const name = prompt("Enter a new name for the node", node.name);
     if (!name) {
       return;
@@ -40,7 +44,10 @@ export function GraphNodeView({ node }) {
     setSelectedBoard(boardClone);
   };
 
-  const deleteNodeClicked = () => {
+  const deleteNodeClicked = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this node?"
     );
@@ -48,13 +55,12 @@ export function GraphNodeView({ node }) {
       return;
     }
 
-    const boardClone = JSON.parse(JSON.stringify(selectedBoard));
-    const parent = findNode(boardClone, node.parentId);
+    const parent = findParent(selectedBoard, node.id);
     const index = parent.children.findIndex((c) => c.id === node.id);
     parent.children.splice(index, 1);
 
-    updateBoard(boardClone);
-    setSelectedBoard(boardClone);
+    const updatedBoard = updateBoard(selectedBoard);
+    setSelectedBoard(updatedBoard);
   };
 
   return (

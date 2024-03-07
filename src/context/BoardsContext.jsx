@@ -36,6 +36,8 @@ export const updateBoard = (board) => {
 
   localStorage.setItem(board.id, JSON.stringify(board));
   localStorage.setItem("boards", JSON.stringify(boards));
+
+  return getBoard(board.id);
 };
 
 export const deleteBoard = (id) => {
@@ -65,7 +67,7 @@ export const findNode = (node, id) => {
   if (node.id === id) {
     return node;
   }
-  const children = node.children || node.categories || [];
+  const children = node.children || [];
   for (let child of children) {
     const found = findNode(child, id);
     if (found) {
@@ -76,16 +78,18 @@ export const findNode = (node, id) => {
 };
 
 export const findParent = (node, id) => {
-  if (node.id === id) {
-    return null;
-  }
-  const children = node.children || node.categories || [];
+  const children = node.children || [];
+
   for (let child of children) {
-    const found = findNode(child, id);
-    if (found) {
+    if (child.id === id) {
       return node;
     }
+    const parent = findParent(child, id);
+    if (parent) {
+      return parent;
+    }
   }
+
   return null;
 };
 
