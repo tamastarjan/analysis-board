@@ -35,7 +35,12 @@ export const addBoard = (name) => {
 };
 
 export const getBoards = () => {
-  return JSON.parse(localStorage.getItem("boards")) || [];
+  const boardsJson = localStorage.getItem("boards");
+  if (!boardsJson) {
+    return [];
+  }
+
+  return JSON.parse(boardsJson) || [];
 };
 
 export const getBoard = (id) => {
