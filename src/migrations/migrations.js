@@ -12,7 +12,7 @@ export function migrateData() {
   } else {
     console.log("Schema is up to date.");
   }
-  console.log("Data migration complete.");
+  console.log("Schema migration complete.");
 }
 
 function v0ToV1() {
