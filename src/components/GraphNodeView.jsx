@@ -6,10 +6,41 @@ import {
   findParent,
   updateBoard,
 } from "../context/BoardsContext";
+import { useDrag, useDrop } from "react-dnd";
 
 export function GraphNodeView({ node }) {
   const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
   const [actionsVisible, setActionsVisible] = useState(false);
+  const [collectedDragProps, drag, dragPreview] = useDrag(() => ({
+    type: "node",
+    item: node,
+  }));
+  const [collectedDropProps, drop] = useDrop(() => ({
+    accept: "node",
+    drop: (droppedNode) => {
+      if (droppedNode.id === node.id) {
+        return;
+      }
+
+      const sourceParent = findParent(selectedBoard, droppedNode.id);
+      const targetParent = findParent(selectedBoard, node.id);
+
+      const targetIndex = targetParent.children.findIndex(
+        (item) => item.id === node.id
+      );
+      const sourceIndex = sourceParent.children.findIndex(
+        (item) => item.id === droppedNode.id
+      );
+
+      sourceParent.children.splice(sourceIndex, 1);
+      targetParent.children.splice(targetIndex, 0, droppedNode);
+
+      findNode(selectedBoard, droppedNode.id).parentId = node.id;
+
+      const updatedBoard = updateBoard(selectedBoard);
+      setSelectedBoard(updatedBoard);
+    },
+  }));
 
   const addNodeClicked = (child) => {
     const name = prompt("Enter a name for the new node");
@@ -71,6 +102,13 @@ export function GraphNodeView({ node }) {
             <div className="graph-container">
               <div
                 className="node"
+                ref={(el) => {
+                  drag(el);
+                  drop(el);
+                  dragPreview(el);
+                }}
+                {...collectedDragProps}
+                {...collectedDropProps}
                 onClick={() =>
                   addNodeClicked(new ItemNode("", selectedBoard.id, node.id))
                 }
@@ -79,8 +117,12 @@ export function GraphNodeView({ node }) {
               >
                 {actionsVisible && (
                   <div className="node-actions">
-                    <button onClick={editNodeClicked}>E</button>
-                    <button onClick={deleteNodeClicked}>X</button>
+                    <button className="node-action" onClick={editNodeClicked}>
+                      E
+                    </button>
+                    <button className="node-action" onClick={deleteNodeClicked}>
+                      X
+                    </button>
                   </div>
                 )}
                 {node.name}

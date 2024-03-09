@@ -5,6 +5,8 @@ import { BoardSelectionContext } from "./context/BoardsContext";
 import { useEffect, useState } from "react";
 import { RightSideBar } from "./components/RightSideBar";
 import { migrateData } from "./migrations/migrations";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   useEffect(() => {
@@ -12,13 +14,15 @@ function App() {
   }, []);
 
   return (
-    <BoardSelectionContext.Provider value={useState(null)}>
-      <div className="horizontal-container">
-        <LeftSideBar />
-        <BoardView />
-        <RightSideBar />
-      </div>
-    </BoardSelectionContext.Provider>
+    <DndProvider backend={HTML5Backend}>
+      <BoardSelectionContext.Provider value={useState(null)}>
+        <div className="horizontal-container">
+          <LeftSideBar />
+          <BoardView />
+          <RightSideBar />
+        </div>
+      </BoardSelectionContext.Provider>
+    </DndProvider>
   );
 }
 
