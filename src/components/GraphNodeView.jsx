@@ -71,7 +71,9 @@ export function GraphNodeView({ node }) {
             <div className="graph-container">
               <div
                 className="node"
-                onClick={() => addNodeClicked(new ItemNode(""))}
+                onClick={() =>
+                  addNodeClicked(new ItemNode("", selectedBoard.id, node.id))
+                }
                 onMouseEnter={() => setActionsVisible(true)}
                 onMouseLeave={() => setActionsVisible(false)}
               >

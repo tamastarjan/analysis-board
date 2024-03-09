@@ -15,7 +15,9 @@ export function BoardView() {
       return;
     }
 
-    selectedBoard.children.push(new ItemNode(nodeName));
+    selectedBoard.children.push(
+      new ItemNode(nodeName, selectedBoard.id, selectedBoard.id)
+    );
     const updatedBoard = updateBoard(selectedBoard);
     setSelectedBoard(updatedBoard);
   };

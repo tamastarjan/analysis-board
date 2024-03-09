@@ -5,16 +5,29 @@ const uid = function () {
 };
 
 export class ItemNode {
-  constructor(name) {
+  constructor(name, boardId, parentId) {
+    // schema version v0
     this.id = uid();
+
+    // schema version v0
     this.name = name;
+
+    // schema version v0
     this.children = [];
+
+    // schema version v0
     this.type = "ItemNode";
+
+    // schema version v1
+    this.boardId = boardId;
+
+    // schema version v1
+    this.parentId = parentId;
   }
 }
 
 export const addBoard = (name) => {
-  const board = new ItemNode(name);
+  const board = new ItemNode(name, null, null);
   const boards = getBoards();
   boards.push({ id: board.id, name: board.name });
   localStorage.setItem("boards", JSON.stringify(boards));
