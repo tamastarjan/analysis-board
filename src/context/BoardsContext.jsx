@@ -1,8 +1,5 @@
 import { createContext } from "react";
-
-const uid = function () {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2);
-};
+import { uid } from "./uid";
 
 export class ItemNode {
   constructor(name, boardId, parentId) {

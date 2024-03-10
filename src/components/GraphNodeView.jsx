@@ -6,45 +6,68 @@ import {
   findParent,
   updateBoard,
 } from "../context/BoardsContext";
+import {
+  OrphansContext,
+  getOrphans,
+  updateOrphans,
+} from "../context/OrphansContext";
 import { useDrag, useDrop } from "react-dnd";
 
 export function GraphNodeView({ node }) {
   const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
   const [actionsVisible, setActionsVisible] = useState(false);
+  const [orphans, setOrphans] = useContext(OrphansContext);
   const [collectedDragProps, drag, dragPreview] = useDrag(() => ({
-    type: "node",
+    type: "ItemNode",
     item: node,
   }));
   const [collectedDropProps, drop] = useDrop(
     () => ({
-      accept: "node",
-      drop: (droppedNode) => {
-        if (droppedNode.id === node.id) {
-          return;
+      accept: ["ItemNode", "OrphanNode"],
+      drop: (droppedNode, monitor) => {
+        if (monitor.getItemType() === "ItemNode") {
+          if (droppedNode.id === node.id) {
+            return;
+          }
+
+          droppedNode = findNode(selectedBoard, droppedNode.id);
+
+          const sourceParent = findParent(selectedBoard, droppedNode.id);
+          const targetParent = findParent(selectedBoard, node.id);
+
+          const targetIndex = targetParent.children.findIndex(
+            (item) => item.id === node.id
+          );
+          const sourceIndex = sourceParent.children.findIndex(
+            (item) => item.id === droppedNode.id
+          );
+
+          sourceParent.children.splice(sourceIndex, 1);
+          targetParent.children.splice(targetIndex, 0, droppedNode);
+
+          findNode(selectedBoard, droppedNode.id).parentId = node.id;
+
+          const updatedBoard = updateBoard(selectedBoard);
+          setSelectedBoard(updatedBoard);
+        } else if (monitor.getItemType() === "OrphanNode") {
+          const sourceIndex = orphans.findIndex((o) => o.id === droppedNode.id);
+          orphans.splice(sourceIndex, 1);
+          setOrphans(updateOrphans(orphans));
+
+          const itemNode = new ItemNode(
+            droppedNode.name,
+            selectedBoard.id,
+            node.id
+          );
+          itemNode.children = droppedNode.children || [];
+
+          node.children.push(itemNode);
+
+          setSelectedBoard(updateBoard(selectedBoard));
         }
-
-        droppedNode = findNode(selectedBoard, droppedNode.id);
-
-        const sourceParent = findParent(selectedBoard, droppedNode.id);
-        const targetParent = findParent(selectedBoard, node.id);
-
-        const targetIndex = targetParent.children.findIndex(
-          (item) => item.id === node.id
-        );
-        const sourceIndex = sourceParent.children.findIndex(
-          (item) => item.id === droppedNode.id
-        );
-
-        sourceParent.children.splice(sourceIndex, 1);
-        targetParent.children.splice(targetIndex, 0, droppedNode);
-
-        findNode(selectedBoard, droppedNode.id).parentId = node.id;
-
-        const updatedBoard = updateBoard(selectedBoard);
-        setSelectedBoard(updatedBoard);
       },
     }),
-    [selectedBoard, node]
+    [selectedBoard, node, orphans]
   );
 
   const addNodeClicked = () => {

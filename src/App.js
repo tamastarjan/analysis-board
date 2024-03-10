@@ -8,6 +8,7 @@ import { migrateData } from "./migrations/migrations";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BottomBar } from "./components/BottomBar";
+import { OrphansContext } from "./context/OrphansContext";
 
 function App() {
   useEffect(() => {
@@ -16,16 +17,18 @@ function App() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <BoardSelectionContext.Provider value={useState(null)}>
-        <div className="horizontal-container">
-          <LeftSideBar />
-          <div className="vertical-container">
-            <BoardView />
-            <BottomBar />
+      <OrphansContext.Provider value={useState([])}>
+        <BoardSelectionContext.Provider value={useState(null)}>
+          <div className="horizontal-container">
+            <LeftSideBar />
+            <div className="middle-container">
+              <BoardView />
+              <BottomBar />
+            </div>
+            <RightSideBar />
           </div>
-          <RightSideBar />
-        </div>
-      </BoardSelectionContext.Provider>
+        </BoardSelectionContext.Provider>
+      </OrphansContext.Provider>
     </DndProvider>
   );
 }
