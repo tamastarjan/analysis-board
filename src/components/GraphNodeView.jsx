@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   BoardSelectionContext,
   ItemNode,
@@ -15,47 +15,49 @@ export function GraphNodeView({ node }) {
     type: "node",
     item: node,
   }));
-  const [collectedDropProps, drop] = useDrop(() => ({
-    accept: "node",
-    drop: (droppedNode) => {
-      if (droppedNode.id === node.id) {
-        return;
-      }
+  const [collectedDropProps, drop] = useDrop(
+    () => ({
+      accept: "node",
+      drop: (droppedNode) => {
+        if (droppedNode.id === node.id) {
+          return;
+        }
 
-      const sourceParent = findParent(selectedBoard, droppedNode.id);
-      const targetParent = findParent(selectedBoard, node.id);
+        droppedNode = findNode(selectedBoard, droppedNode.id);
 
-      const targetIndex = targetParent.children.findIndex(
-        (item) => item.id === node.id
-      );
-      const sourceIndex = sourceParent.children.findIndex(
-        (item) => item.id === droppedNode.id
-      );
+        const sourceParent = findParent(selectedBoard, droppedNode.id);
+        const targetParent = findParent(selectedBoard, node.id);
 
-      sourceParent.children.splice(sourceIndex, 1);
-      targetParent.children.splice(targetIndex, 0, droppedNode);
+        const targetIndex = targetParent.children.findIndex(
+          (item) => item.id === node.id
+        );
+        const sourceIndex = sourceParent.children.findIndex(
+          (item) => item.id === droppedNode.id
+        );
 
-      findNode(selectedBoard, droppedNode.id).parentId = node.id;
+        sourceParent.children.splice(sourceIndex, 1);
+        targetParent.children.splice(targetIndex, 0, droppedNode);
 
-      const updatedBoard = updateBoard(selectedBoard);
-      setSelectedBoard(updatedBoard);
-    },
-  }));
+        findNode(selectedBoard, droppedNode.id).parentId = node.id;
 
-  const addNodeClicked = (child) => {
+        const updatedBoard = updateBoard(selectedBoard);
+        setSelectedBoard(updatedBoard);
+      },
+    }),
+    [selectedBoard, node]
+  );
+
+  const addNodeClicked = () => {
     const name = prompt("Enter a name for the new node");
     if (!name) {
       return;
     }
 
-    child.name = name;
-    const boardClone = JSON.parse(JSON.stringify(selectedBoard));
-    const clonedNode = findNode(boardClone, node.id);
-    const children = clonedNode.children || [];
-    children.push(child);
+    const child = new ItemNode(name, selectedBoard.id, node.id);
+    node.children.push(child);
 
-    updateBoard(boardClone);
-    setSelectedBoard(boardClone);
+    const updatedBoard = updateBoard(selectedBoard);
+    setSelectedBoard(updatedBoard);
   };
 
   const editNodeClicked = (event) => {
@@ -97,7 +99,7 @@ export function GraphNodeView({ node }) {
   return (
     <>
       {node && (
-        <div>
+        <>
           {node.type === "ItemNode" && (
             <div className="graph-container">
               <div
@@ -109,9 +111,7 @@ export function GraphNodeView({ node }) {
                 }}
                 {...collectedDragProps}
                 {...collectedDropProps}
-                onClick={() =>
-                  addNodeClicked(new ItemNode("", selectedBoard.id, node.id))
-                }
+                onClick={addNodeClicked}
                 onMouseEnter={() => setActionsVisible(true)}
                 onMouseLeave={() => setActionsVisible(false)}
               >
@@ -134,7 +134,7 @@ export function GraphNodeView({ node }) {
               </div>
             </div>
           )}
-        </div>
+        </>
       )}
     </>
   );

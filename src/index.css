@@ -58,6 +58,8 @@ code {
 
 .graph-container {
   display: flex;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .node {
@@ -70,23 +72,24 @@ code {
   max-width: 200px;
   min-width: 40px;
   position: relative;
+  border-radius: 5px;
 }
 
 .node-actions {
   display: flex;
-  flex-direction: column;
-  width: 20px;
+  width: 40px;
   position: absolute;
-  right: -20px;
+  right: -40px;
   top: 0;
   background-color: white;
   z-index: 1;
 }
 
-.node-action {
+.node-action button {
   background-color: white;
   margin: 0;
   padding: 0;
+  font-size: 14px;
 }
 
 .graph-children {
