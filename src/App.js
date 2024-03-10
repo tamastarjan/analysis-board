@@ -7,6 +7,7 @@ import { RightSideBar } from "./components/RightSideBar";
 import { migrateData } from "./migrations/migrations";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { BottomBar } from "./components/BottomBar";
 
 function App() {
   useEffect(() => {
@@ -18,7 +19,10 @@ function App() {
       <BoardSelectionContext.Provider value={useState(null)}>
         <div className="horizontal-container">
           <LeftSideBar />
-          <BoardView />
+          <div className="vertical-container">
+            <BoardView />
+            <BottomBar />
+          </div>
           <RightSideBar />
         </div>
       </BoardSelectionContext.Provider>
