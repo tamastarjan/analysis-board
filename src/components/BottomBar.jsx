@@ -27,8 +27,10 @@ export function BottomBar() {
       orphans.splice(0, 0, new OrphanNode(note));
       setOrphans(updateOrphans(orphans));
 
-      e.target.blur();
       e.target.value = "";
+    } else if (e.key === "Escape") {
+      e.target.value = "";
+      e.target.blur();
     }
   };
 

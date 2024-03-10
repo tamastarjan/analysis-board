@@ -23,15 +23,13 @@ export function OrphanNodeView({ orphan }) {
     () => ({
       accept: ["ItemNode", "OrphanNode"],
       drop: (droppedNode, monitor) => {
-        if (monitor.type === "OrphanNode") {
+        if (monitor.getItemType() === "OrphanNode") {
           if (droppedNode.id === orphan.id) {
             return;
           }
 
           const sourceIndex = orphans.findIndex((o) => o.id === droppedNode.id);
           const targetIndex = orphans.findIndex((o) => o.id === orphan.id);
-
-          console.log(sourceIndex, targetIndex);
 
           orphans.splice(sourceIndex, 1);
           orphans.splice(targetIndex, 0, droppedNode);
