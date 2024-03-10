@@ -31,8 +31,10 @@ export function RightSideBar() {
         }
       }
     }
-    console.log(questions);
-    setQuestions(questions);
+
+    const filteredQuestions = questions.filter((q) => q.questions.length > 0);
+
+    setQuestions(filteredQuestions);
   }, [selectedBoard]);
 
   return (
