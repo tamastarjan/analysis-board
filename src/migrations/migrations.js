@@ -7,11 +7,11 @@ export function migrateData() {
   console.log(`Current schema version is ${version}.`);
   if (!version) {
     v0ToV1();
-  } else if (version === "1") {
-    v1ToV2();
-  } else {
-    console.log("Schema is up to date.");
   }
+  if (version === "1") {
+    v1ToV2();
+  }
+  console.log("Schema is up to date.");
   console.log("Schema migration complete.");
 }
 
