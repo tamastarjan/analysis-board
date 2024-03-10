@@ -11,35 +11,46 @@ export function RightSideBar() {
 
   useEffect(() => {
     const boards = getBoards();
-    const stack = [];
+    const questions = [];
+
     for (let board of boards) {
       const boardData = getBoard(board.id);
-      stack.push(boardData);
-    }
+      const stack = [boardData];
 
-    const questions = [];
-    while (stack.length > 0) {
-      const node = stack.pop();
-      if (node.name.includes("?")) {
-        questions.push(node);
-      }
-      if (node.children) {
-        for (let child of node.children) {
-          stack.push(child);
+      questions.push({ id: board.id, name: board.name, questions: [] });
+
+      while (stack.length > 0) {
+        const node = stack.pop();
+        if (node.name.includes("?")) {
+          questions[questions.length - 1].questions.push(node);
+        }
+        if (node.children) {
+          for (let child of node.children) {
+            stack.push(child);
+          }
         }
       }
     }
-
+    console.log(questions);
     setQuestions(questions);
   }, [selectedBoard]);
 
   return (
     <div className="right-side-bar">
       <h2>Questions</h2>
-      {questions.map((question) => {
+      {questions.map((b) => {
         return (
-          <div className="question" key={question.id}>
-            {question.name}
+          <div className="question-category" key={b.id}>
+            <div className="question-category-name">
+              <h3>{b.name}</h3>
+            </div>
+            {b.questions.map((q) => {
+              return (
+                <div className="question" key={q.id}>
+                  {q.name}
+                </div>
+              );
+            })}
           </div>
         );
       })}

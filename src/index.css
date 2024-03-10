@@ -223,3 +223,7 @@ textarea.loose-note-input:focus {
   transition: width 0.2s ease, box-shadow 0.2s ease, top 0.2s ease;
   cursor: pointer;
 }
+
+.question-category-name {
+  border-bottom: solid rgb(209, 209, 209) 1px;
+}
