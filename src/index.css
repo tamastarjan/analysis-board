@@ -87,8 +87,17 @@ code {
 
 .graph-container {
   display: flex;
+}
+
+.graph-children > .graph-container {
+  margin-right: 5px;
   margin-bottom: 5px;
-  margin-top: 5px;
+}
+
+.graph-children:first-child,
+.graph-children:last-child {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .node {
