@@ -21,7 +21,7 @@ export function RightSideBar() {
 
       while (stack.length > 0) {
         const node = stack.pop();
-        if (node.name.includes("?")) {
+        if (node.name.includes("?") && isNotAnswered(node)) {
           questions[questions.length - 1].questions.push(node);
         }
         if (node.children) {
@@ -36,6 +36,20 @@ export function RightSideBar() {
 
     setQuestions(filteredQuestions);
   }, [selectedBoard]);
+
+  function isNotAnswered(node) {
+    if (!node.children) {
+      return true;
+    }
+
+    for (let child of node.children) {
+      if (child.name.startsWith("A:")) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   return (
     <div className="right-side-bar">
