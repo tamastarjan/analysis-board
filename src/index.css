@@ -114,6 +114,10 @@ code {
   background-color: white;
 }
 
+.highlighted {
+  background-color: #b5d1ff5a;
+}
+
 .node-actions {
   display: flex;
   width: 40px;

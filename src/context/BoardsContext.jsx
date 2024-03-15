@@ -20,6 +20,9 @@ export class ItemNode {
 
     // schema version v1
     this.parentId = parentId;
+
+    // schema version v1
+    this.highlightedNode = null;
   }
 }
 

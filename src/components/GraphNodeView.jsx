@@ -126,7 +126,13 @@ export function GraphNodeView({ node }) {
           {node.type === "ItemNode" && (
             <div className="graph-container">
               <div
-                className="node"
+                className={
+                  "node" +
+                  (node.id === selectedBoard.highlightedNode
+                    ? " highlighted"
+                    : "")
+                }
+                id={node.id}
                 ref={(el) => {
                   drag(el);
                   drop(el);

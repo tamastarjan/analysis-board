@@ -6,7 +6,7 @@ import {
 } from "../context/BoardsContext";
 
 export function RightSideBar() {
-  const [selectedBoard] = useContext(BoardSelectionContext);
+  const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -51,6 +51,15 @@ export function RightSideBar() {
     return true;
   }
 
+  function questionClicked(q) {
+    const board = getBoard(q.boardId);
+    board.highlightedNode = q.id;
+    setSelectedBoard(board);
+    window.setTimeout(() => {
+      document.getElementById(q.id).scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }
+
   return (
     <div className="right-side-bar">
       <h2>Questions</h2>
@@ -62,7 +71,11 @@ export function RightSideBar() {
             </div>
             {b.questions.map((q) => {
               return (
-                <div className="question" key={q.id}>
+                <div
+                  onClick={(e) => questionClicked(q)}
+                  className="question"
+                  key={q.id}
+                >
                   {q.name}
                 </div>
               );
