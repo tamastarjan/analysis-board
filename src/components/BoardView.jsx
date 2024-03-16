@@ -9,7 +9,7 @@ import { GraphNodeView } from "./GraphNodeView";
 export function BoardView() {
   const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
 
-  const addNoteCliked = () => {
+  const addNoteClicked = () => {
     const nodeName = prompt("Enter your note:");
     if (!nodeName) {
       return;
@@ -27,7 +27,7 @@ export function BoardView() {
       {selectedBoard ? (
         <div className="board-view">
           <h1>{selectedBoard.name}</h1>
-          <button onClick={addNoteCliked}>Add note</button>
+          <button onClick={addNoteClicked}>Add note</button>
           <br />
           <br />
           <div className="graph-children">
