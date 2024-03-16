@@ -27,12 +27,17 @@
 }
 
 body {
+  font-size: 22px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+textarea {
+  font-size: 22px;
 }
 
 code {
@@ -186,7 +191,7 @@ button:hover {
 }
 
 textarea.loose-note-input {
-  width: 120px;
+  width: 180px;
   height: calc(100% - 28px);
   padding: 10px;
   outline: none;
@@ -213,17 +218,18 @@ textarea.loose-note-input:focus {
 }
 
 .loose-notes {
-  width: calc(100% - 120px);
+  width: calc(100% - 180px);
   display: flex;
-  margin-left: 120px;
+  margin-left: 180px;
   padding-left: 10px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: visible;
   height: calc(100%);
 }
 
 .loose-note {
   flex-shrink: 0;
-  width: 120px;
+  width: 180px;
   height: calc(100% - 8px);
   padding: 10px;
   margin: 4px 10px 4px 0;
