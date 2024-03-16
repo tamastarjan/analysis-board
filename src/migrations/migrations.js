@@ -11,7 +11,6 @@ export function migrateData() {
     v1ToV2();
   }
   console.log("Schema is up to date.");
-  console.log("Schema migration complete.");
 }
 
 function getVersion() {
