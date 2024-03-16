@@ -3,16 +3,19 @@ import { getBoard, getBoards, updateBoard } from "../context/BoardsContext";
 export function migrateData() {
   console.log("Checking schema version...");
 
-  const version = localStorage.getItem("schema_version");
-  console.log(`Current schema version is ${version}.`);
-  if (!version) {
+  console.log(`Current schema version is ${getVersion()}.`);
+  if (!getVersion()) {
     v0ToV1();
   }
-  if (version === "1") {
+  if (getVersion() === "1") {
     v1ToV2();
   }
   console.log("Schema is up to date.");
   console.log("Schema migration complete.");
+}
+
+function getVersion() {
+  return localStorage.getItem("schema_version");
 }
 
 function v0ToV1() {
