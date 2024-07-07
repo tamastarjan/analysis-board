@@ -288,6 +288,14 @@ textarea.loose-note-input:focus {
   color: var(--color-white);
 }
 
+.sidebar-buttons {
+  display: flex;
+}
+
+.white-text {
+  color: white;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

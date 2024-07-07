@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { uid } from "./uid";
+import { getFaqBoard } from "./faqboard";
 
 export class ItemNode {
   constructor(name, boardId, parentId) {
@@ -34,10 +35,28 @@ export const addBoard = (name) => {
   localStorage.setItem(board.id, JSON.stringify(board));
 };
 
+export const importBoard = (json) => {
+  try {
+    const sourceBoard = JSON.parse(json);
+    const newBoardJson = json.replace(sourceBoard.id, uid());
+    const newBoard = JSON.parse(newBoardJson);
+
+    const boardsJson = localStorage.getItem("boards") || "[]";
+    const boards = JSON.parse(boardsJson);
+    boards.push({ id: newBoard.id, name: newBoard.name });
+    localStorage.setItem("boards", JSON.stringify(boards));
+    localStorage.setItem(newBoard.id, JSON.stringify(newBoard));
+  } catch (e) {
+    console.log(e);
+    alert("Did not import board.");
+  }
+};
+
 export const getBoards = () => {
-  const boardsJson = localStorage.getItem("boards");
+  let boardsJson = localStorage.getItem("boards");
   if (!boardsJson) {
-    return [];
+    importBoard(JSON.stringify(getFaqBoard()));
+    boardsJson = localStorage.getItem("boards");
   }
 
   return JSON.parse(boardsJson) || [];

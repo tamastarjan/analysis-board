@@ -5,6 +5,7 @@ import {
   deleteBoard,
   getBoard,
   getBoards,
+  importBoard,
   updateBoard,
 } from "../context/BoardsContext";
 
@@ -25,10 +26,21 @@ export function LeftSideBar() {
     }
   };
 
+  const importBoardClicked = () => {
+    const boardJson = prompt("Paste the board data below");
+    if (boardJson === "") {
+      return;
+    }
+
+    importBoard(boardJson);
+    setBoards(getBoards());
+  };
+
   const exportBoard = (boardIndex) => {
+    document.getElementsByTagName("body")[0].focus();
     const boardMetadata = boards[boardIndex];
     const board = getBoard(boardMetadata.id);
-    navigator.clipboard.writeText(JSON.stringify(board)).then((result) => {
+    navigator.clipboard.writeText(JSON.stringify(board)).then((_) => {
       alert("Board copied to clipboard.");
     });
   };
@@ -92,12 +104,12 @@ export function LeftSideBar() {
           </div>
         </div>
       ))}
-      <div className="new-board-button-container">
-        <button
-          className="new-board-button loose-action"
-          onClick={newBoardClicked}
-        >
+      <div className="sidebar-buttons">
+        <button className="new-board-button" onClick={newBoardClicked}>
           New board
+        </button>
+        <button className="new-board-button" onClick={importBoardClicked}>
+          Import board
         </button>
       </div>
     </div>

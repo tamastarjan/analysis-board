@@ -72,7 +72,7 @@ export function BoardView() {
           </div>
         </div>
       ) : (
-        <div className="board-view">No board selected</div>
+        <div className="board-view white-text">No board selected</div>
       )}
     </>
   );

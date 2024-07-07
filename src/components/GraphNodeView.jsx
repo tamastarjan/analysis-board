@@ -72,7 +72,7 @@ export function GraphNodeView({ node, depth }) {
   );
 
   const addNodeClicked = () => {
-    const name = prompt("Enter a name for the new node");
+    const name = prompt("Enter your note...");
     if (!name) {
       return;
     }
