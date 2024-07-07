@@ -69,17 +69,20 @@ export function RightSideBar() {
             <div className="question-category-name">
               <h3>{b.name}</h3>
             </div>
-            {b.questions.map((q) => {
-              return (
-                <div
-                  onClick={(e) => questionClicked(q)}
-                  className="question"
-                  key={q.id}
-                >
-                  {q.name}
-                </div>
-              );
-            })}
+            {b.questions
+              .slice()
+              .reverse()
+              .map((q) => {
+                return (
+                  <div
+                    onClick={(e) => questionClicked(q)}
+                    className="question"
+                    key={q.id}
+                  >
+                    {q.name}
+                  </div>
+                );
+              })}
           </div>
         );
       })}
