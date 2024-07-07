@@ -99,13 +99,13 @@ code {
   box-shadow: var(--box-shadow);
 }
 
-.board-delete {
+.board-actions {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
-.board-delete button {
+.board-actions button {
   border-radius: 5px;
   margin-right: 5px;
 }
@@ -289,8 +289,8 @@ textarea.loose-note-input:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {

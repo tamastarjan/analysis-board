@@ -25,6 +25,14 @@ export function LeftSideBar() {
     }
   };
 
+  const exportBoard = (boardIndex) => {
+    const boardMetadata = boards[boardIndex];
+    const board = getBoard(boardMetadata.id);
+    navigator.clipboard.writeText(JSON.stringify(board)).then((result) => {
+      alert("Board copied to clipboard.");
+    });
+  };
+
   const deleteBoardClicked = (boardIndex) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this board?"
@@ -78,7 +86,8 @@ export function LeftSideBar() {
           >
             {board.name}
           </div>
-          <div className="board-delete">
+          <div className="board-actions">
+            <button onClick={() => exportBoard(boardIndex)}>E</button>
             <button onClick={() => deleteBoardClicked(boardIndex)}>X</button>
           </div>
         </div>
