@@ -26,19 +26,22 @@ export function BoardView() {
     <>
       {selectedBoard ? (
         <div className="board-view">
-          <h1>{selectedBoard.name}</h1>
-          <button
-            className="add-note-button loose-action"
-            onClick={addNoteClicked}
-          >
-            New note
-          </button>
-          <br />
-          <br />
-          <div className="graph-children">
-            {selectedBoard.children.map((child) => {
-              return <GraphNodeView key={child.id} node={child} />;
-            })}
+          <div className="board-view-title">
+            <h1>{selectedBoard.name}</h1>
+          </div>
+          <div className="board-view-content">
+            <div className="graph-children">
+              {selectedBoard.children.map((child) => {
+                return <GraphNodeView key={child.id} node={child} />;
+              })}
+            </div>
+            <br />
+            <button
+              className="add-note-button loose-action"
+              onClick={addNoteClicked}
+            >
+              New note
+            </button>
           </div>
         </div>
       ) : (

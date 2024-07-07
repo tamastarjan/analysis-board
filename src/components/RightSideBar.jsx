@@ -62,7 +62,7 @@ export function RightSideBar() {
 
   return (
     <div className="right-side-bar">
-      <h2>Questions</h2>
+      <h1>Questions</h1>
       {questions.map((b) => {
         return (
           <div className="question-category" key={b.id}>
