@@ -9,7 +9,7 @@ import {
 import { OrphansContext, updateOrphans } from "../context/OrphansContext";
 import { useDrag, useDrop } from "react-dnd";
 
-export function GraphNodeView({ node }) {
+export function GraphNodeView({ node, depth }) {
   const [selectedBoard, setSelectedBoard] = useContext(BoardSelectionContext);
   const [actionsVisible, setActionsVisible] = useState(false);
   const [orphans, setOrphans] = useContext(OrphansContext);
@@ -17,6 +17,11 @@ export function GraphNodeView({ node }) {
     type: "ItemNode",
     item: node,
   }));
+
+  if (!depth) {
+    depth = 0;
+  }
+
   const [collectedDropProps, drop] = useDrop(
     () => ({
       accept: ["ItemNode", "OrphanNode"],
@@ -120,7 +125,14 @@ export function GraphNodeView({ node }) {
       {node && (
         <>
           {node.type === "ItemNode" && (
-            <div className="graph-container">
+            <div
+              className="graph-container"
+              style={{
+                marginTop: depth === 0 ? "20px" : "2px",
+                marginBottom: depth === 0 ? "20px" : "2px",
+                marginLeft: "4px",
+              }}
+            >
               <div
                 className={
                   "node" +
@@ -154,7 +166,11 @@ export function GraphNodeView({ node }) {
               </div>
               <div className="graph-children">
                 {node.children.map((child) => (
-                  <GraphNodeView key={child.id} node={child} />
+                  <GraphNodeView
+                    key={child.id}
+                    node={child}
+                    depth={depth + 1}
+                  />
                 ))}
               </div>
             </div>

@@ -128,10 +128,10 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 5px;
+  padding: 5px 15px;
   cursor: pointer;
   box-shadow: var(--box-shadow);
-  max-width: 200px;
+  max-width: 300px;
   min-width: 40px;
   position: relative;
   border-radius: var(--border-radius);
