@@ -27,7 +27,12 @@ export function BoardView() {
       {selectedBoard ? (
         <div className="board-view">
           <h1>{selectedBoard.name}</h1>
-          <button onClick={addNoteClicked}>Add note</button>
+          <button
+            className="add-note-button loose-action"
+            onClick={addNoteClicked}
+          >
+            New note
+          </button>
           <br />
           <br />
           <div className="graph-children">

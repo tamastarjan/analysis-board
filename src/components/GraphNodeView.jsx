@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import {
   BoardSelectionContext,
   ItemNode,
@@ -6,11 +6,7 @@ import {
   findParent,
   updateBoard,
 } from "../context/BoardsContext";
-import {
-  OrphansContext,
-  getOrphans,
-  updateOrphans,
-} from "../context/OrphansContext";
+import { OrphansContext, updateOrphans } from "../context/OrphansContext";
 import { useDrag, useDrop } from "react-dnd";
 
 export function GraphNodeView({ node }) {
