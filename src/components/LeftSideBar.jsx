@@ -69,12 +69,6 @@ export function LeftSideBar() {
   return (
     <div className="left-side-bar">
       <h1>Boards</h1>
-      <button
-        className="new-board-button loose-action"
-        onClick={newBoardClicked}
-      >
-        New board
-      </button>
       {boards.map((board, boardIndex) => (
         <div key={board.id} className="board">
           <div
@@ -89,6 +83,14 @@ export function LeftSideBar() {
           </div>
         </div>
       ))}
+      <div className="new-board-button-container">
+        <button
+          className="new-board-button loose-action"
+          onClick={newBoardClicked}
+        >
+          New board
+        </button>
+      </div>
     </div>
   );
 }

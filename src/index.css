@@ -72,18 +72,15 @@ code {
   position: relative;
 }
 
-.loose-action {
-  font-size: 28px;
+.new-board-button {
+  margin-top: 20px;
+  font-size: 20px;
   border-radius: 5px;
   padding: 5px 10px;
   background-color: var(--color-white);
   outline: none;
   border: none;
-  margin-left: 5px;
-}
-
-.new-board-button {
-  margin-bottom: 30px;
+  margin-left: 10px;
 }
 
 .board-name {
